@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PolyLingua – Beginner Language App</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6fb;
+      color: #222;
+    }
+    header {
+      background: #4f46e5;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      padding: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>PolyLingua</h1>
+  <p>Beginner Language Learning</p>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Select a Language</h2>
+    <select id="language">
+      <option>English</option>
+      <option>Arabic</option>
+      <option>Dutch</option>
+      <option>Spanish</option>
+      <option>Japanese</option>
+      <option>Korean</option>
+      <option>Turkish</option>
+      <option>Swahili</option>
+      <option>Tamazight</option>
+    </select>
+    <button onclick="startLesson()">Start Lesson</button>
+  </div>
+
+  <div class="card" id="lesson" style="display:none;">
+    <h2 id="word"></h2>
+    <p id="translation"></p>
+    <button onclick="nextWord()">Next</button>
+  </div>
+</main>
+
+<script>
+  const lessons = {
+    English: [
+      { word: "Hello", meaning: "Hello" },
+      { word: "Goodbye", meaning: "Goodbye" }
+    ],
+    Arabic: [
+      { word: "مرحبا", meaning: "Hello" },
+      { word: "مع السلامة", meaning: "Goodbye" }
+    ],
+    Dutch: [
+      { word: "Hallo", meaning: "Hello" },
+      { word: "Tot ziens", meaning: "Goodbye" }
+    ]
+  };
+
+  let current = 0;
+  let currentLang = "English";
+
+  function startLesson() {
+    currentLang = document.getElementById("language").value;
+    current = 0;
+    document.getElementById("lesson").style.display = "block";
+    showWord();
+  }
+
+  function showWord() {
+    const item = lessons[currentLang][current];
+    document.getElementById("word").innerText = item.word;
+    document.getElementById("translation").innerText = item.meaning;
+  }
+
+  function nextWord() {
+    current++;
+    if (current >= lessons[currentLang].length) current = 0;
+    showWord();
+  }
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+  }
+</script>
+
+</body>
+</html>
